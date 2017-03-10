@@ -1,0 +1,22 @@
+
+#window {
+    width: 800px;
+    height: 800px;
+    overflow:hidden;
+    position: relative;
+    margin:0 auto;
+}
+#board {
+    width: 4200px;
+    height: 4200px;
+    position:absolute;
+    top:"-100px";
+    left:"100px";
+}
+#surface {
+    width: 4000px;
+    height: 4000px;
+    border: 10px solid black;
+}
+#canvas {
+}
