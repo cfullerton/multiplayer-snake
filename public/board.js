@@ -108,8 +108,11 @@ $(document).ready(function(){
       var ctx=canvas.getContext("2d");
     var data = ctx.getImageData(x, y, 1, 1).data;
     var data2 = ctx.getImageData(x1, y1, 1, 1).data;
-    if (data[0]>0 || data2[0]>0) return true;
+    for (var i =0;i<3;i++){
+    if (data[i]>0 || data2[i]>0) return true;
   }
+  }
+
   function checkCollision(){
     var ctx=canvas.getContext("2d");
     for (var i = 0; i < players.length; i ++){
