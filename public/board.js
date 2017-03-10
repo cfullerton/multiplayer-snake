@@ -18,7 +18,7 @@ $(document).ready(function(){
   canvas.height = $("#board").height();
 
   function initialize(){
-    var userBox = new Player([200,200],true,"up","red",false);
+    var userBox = new Player([200,200],true,"right","red",false);
    loadOthers();
     players.push(userBox);
     draw();
@@ -27,7 +27,7 @@ $(document).ready(function(){
     }, moveTime);
   };
   function loadOthers(){
-    var compBox = new Player([250,300],false,"up","blue",false);
+    var compBox = new Player([900,300],false,"left","blue",false);
     players.push(compBox);
   }
   function getRandomInt(min, max) {
@@ -36,18 +36,23 @@ $(document).ready(function(){
   function changeBotDirection(oldDirection){
       var randomNum = getRandomInt(1,4);
         if (randomNum == 1){
-          return 'right';
+          newDirection = 'right';
         }
         if (randomNum == 2){
-          return 'left';
+          newDirection = 'left';
         }
         if (randomNum == 3){
-          return 'down';
+          newDirection = 'down';
         }
         if (randomNum == 4){
-          return 'up';
+          newDirection = 'up';
         }
-
+        if ((newDirection == "up" && oldDirection == "down")|| (newDirection == "down" && oldDirection == "up")||
+        (newDirection == "left" && oldDirection == "right"|| (newDirection == "right" && oldDirection == "left"))) {
+          return oldDirection;
+        }else {
+          return newDirection;
+        }
   }
   $(document).keydown(function(e) {
       e.preventDefault();
