@@ -1,6 +1,5 @@
 var moveAmount = 5;
 var moveTime = 100;
-
 function Player(location,user,direction,color,outside){
   this.location =location;
   this.user=user;
@@ -20,15 +19,40 @@ $(document).ready(function(){
 
   function initialize(){
     var userBox = new Player([200,200],true,"up","red",false);
+   loadOthers();
     players.push(userBox);
     draw();
     window.setInterval(function(){
        tick();
     }, moveTime);
   };
+  function loadOthers(){
+    var compBox = new Player([250,300],false,"up","blue",false);
+    players.push(compBox);
+  }
+  function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  function changeBotDirection(oldDirection){
+      var randomNum = getRandomInt(1,4);
+        if (randomNum == 1){
+          return 'right';
+        }
+        if (randomNum == 2){
+          return 'left';
+        }
+        if (randomNum == 3){
+          return 'down';
+        }
+        if (randomNum == 4){
+          return 'up';
+        }
+
+  }
   $(document).keydown(function(e) {
       e.preventDefault();
     var newDirection = "";
+
     switch(e.which) {
 
         case 37: // left
@@ -51,8 +75,11 @@ $(document).ready(function(){
         default: return; // exit this handler for other keys
     }
     for (var i = 0; i<players.length;i++){
-      if(players[i].user == true) players[i].direction = newDirection;
+      if(players[i].user == true) {players[i].direction = newDirection;}
+      else {players[i].direction = changeBotDirection(players[i].direction);
+      }
     }
+
 });
   function tick(){
     for (var i = 0;i<players.length;i++){
@@ -75,7 +102,6 @@ $(document).ready(function(){
     }
     checkCollision();
     draw();
-
 
   }
   function checkPixels(x,y,x1,y1){
