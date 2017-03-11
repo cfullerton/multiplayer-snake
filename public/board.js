@@ -174,10 +174,10 @@ connection.socket.on('playerAdded',function(data){
 })
 
 connection.socket.on('directionSet',function(data){
-  console.log(data);
   for (var i = 0;i<players.length;i++){
     if (!players[i].user){
       players[i].direction = data[players[i].id]
+      players[i].color = "blue";
     }
   }
 })
