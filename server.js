@@ -5,7 +5,6 @@ var io = require('socket.io')(server);
 var locationData = {};
 var players = [];
 io.sockets.on('connection', function(socket) {
-  console.log(socket)
   socket.on('locationUpdate', function(data) {
     if (!locationData[data.sendID] || !(locationData[data.sendID] == data.sendDirection)){
     locationData[data.sendID]= data.sendDirection;
@@ -17,7 +16,7 @@ io.sockets.on('connection', function(socket) {
  })
   socket.on('idRegister', function(data) {     // needs to validate that no two are the same
     socket.playerID = data;
-
+    
   })
   socket.on('disconnect', function() {
     console.log(socket.playerID);
