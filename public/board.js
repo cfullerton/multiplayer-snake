@@ -15,8 +15,10 @@ function Player(location,user,direction,color,id){
 
 $(document).ready(function(){
   var players = [];
-  var playerX = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
-  var playerY = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
+//  var playerX = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
+//  var playerY = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
+    var playerX =250;
+    var playerY = 250;
   var userBox = new Player([playerX,playerY],true,"up","red",connection.id);
   $('#board').css("top",Number($('#board').css("top").slice(0,-2)) -(playerY -200) + "px");
   $('#board').css("left",Number($('#board').css("left").slice(0,-2)) - (playerX-200) + "px");
@@ -151,8 +153,11 @@ $(document).ready(function(){
 connection.socket.on('start', function(data) {
 console.log(data);
   for (var i = 0; i< data.length;i++){
+    if (data[i].id ! = connection.id){
     data[i].user = false;
+    console.log(data[i])
     players.push(data[i]);
+  }
   }
   initialize();
 });
