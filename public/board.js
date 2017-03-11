@@ -23,7 +23,8 @@ $(document).ready(function(){
   var userBox = new Player([playerX,playerY],true,"up","red",connection.id);
   $('#board').css("top",Number($('#board').css("top").slice(0,-2)) -(playerY -200) + "px");
   $('#board').css("left",Number($('#board').css("left").slice(0,-2)) - (playerX-200) + "px");
-
+  connection.socket.emit('addPlayer',userBox);
+  players.push(userBox);
   var canvas = document.getElementById("canvas");
   canvas.width = $("#surface").width();
   canvas.height = $("#surface").height();
@@ -31,8 +32,7 @@ $(document).ready(function(){
     connection.socket.emit('start',{});
   })
   function initialize(){
-    connection.socket.emit('addPlayer',userBox);
-    players.push(userBox);
+
     var ctx=canvas.getContext("2d");
     ctx.rect(1,1,1000,1000);
     ctx.stroke();
@@ -172,6 +172,7 @@ connection.socket.on('playerAdded',function(data){
   serverPlayers = data.length;
   $('.serverPlayers').text(serverPlayers);
 })
+
 connection.socket.on('directionSet',function(data){
   console.log(data);
   for (var i = 0;i<players.length;i++){
