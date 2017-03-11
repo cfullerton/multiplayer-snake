@@ -21,7 +21,12 @@ io.sockets.on('connection', function(socket) {
     io.sockets.emit('playerAdded', connections);
   })
   socket.on('out', function(data) {     // needs to do something with player out event
-
+      io.sockets.emit('playerOut',data);
+      for(var i = 0;i<players.length;i++){
+        if(players[i].id == data){
+          players[i].out = true;
+        }
+      }
 
   })
   socket.on('disconnect', function() {
@@ -40,6 +45,9 @@ io.sockets.on('connection', function(socket) {
   })
   socket.on('start',function() {
     io.sockets.emit('start', players);
+    for(var i = 0;i<players.length;i++){
+      players[i].out = false;
+    }
   })
 })
 

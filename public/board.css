@@ -6,7 +6,7 @@ body {
     height: 600px;
     overflow:hidden;
     position: relative;
-    margin:100 auto;
+    margin:0 auto;
     background-color: white;
 }
 #board {
@@ -28,4 +28,9 @@ body {
 #starter {
   cursor: pointer;
   background-color: blue;
+  color:white;
+  padding:5 0 5 0;
+  margin: 50 auto;
+  width: 200px;
+  text-align: center;
 }

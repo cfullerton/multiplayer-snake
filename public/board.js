@@ -2,6 +2,7 @@ var moveAmount = 1;
 var moveTime = 10;
 var server = "http://192.168.1.5:3000"                      // needs to come server selection
 connection = new Connection(server);
+var ticker;
 connection.setID();
 function Player(location,user,direction,color,id){
   this.location =location;
@@ -32,6 +33,7 @@ $(document).ready(function(){
     connection.socket.emit('start',{});
   })
   function initialize(){
+    window.clearTimeout(ticker);
     var ctx=canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -39,7 +41,7 @@ $(document).ready(function(){
         players[i].out = false;
     }
     draw();
-    window.setInterval(function(){
+    ticker = setInterval(function(){
        tick();
     }, moveTime);
   };
@@ -72,7 +74,7 @@ $(document).ready(function(){
       if(players[i].user == true) players[i].direction = newDirection;
     }
 });
-  function tick(){
+ function tick(){
     for (var i = 0;i<players.length;i++){
       if(!players[i].out){
       if (players[i].direction == "up"){
@@ -151,7 +153,7 @@ $(document).ready(function(){
   }
   function playerOut(playerNumber){
      players[playerNumber].out = true;
-     connection.socket.emit('out',playerNumber);
+     connection.socket.emit('out',players[playerNumber].id);
   }
   function draw(){
     var ctx=canvas.getContext("2d");
@@ -164,13 +166,11 @@ $(document).ready(function(){
   }
 
 connection.socket.on('start', function(data) {
-console.log(data);
   for (var i = 0; i< data.length;i++){
     if (data[i].id != connection.id){
     data[i].user = false;
     data[i].color = "blue";
     data[i].out = false;
-    console.log(data[i])
     players.push(data[i]);
   }
   }
