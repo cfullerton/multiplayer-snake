@@ -32,6 +32,9 @@ $(document).ready(function(){
     connection.socket.emit('start',{});
   })
   function initialize(){
+    var ctx=canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     for (var i = 0;i<players.length;i++){
         players[i].out = false;
     }
