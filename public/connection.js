@@ -8,5 +8,10 @@ this.setID = function (){
   },
   this.id = 0;
 }
-
-var playerDirections = {}
+var serverPlayers = 0;
+function cont($scope)
+{
+  $scope.$watch('serverPlayers', function() {
+        $scope.serverPlayers = serverPlayers;
+    });
+}

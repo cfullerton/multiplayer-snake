@@ -1,27 +1,30 @@
-
+body {
+  background-color: grey;
+}
 #window {
     width: 800px;
-    height: 800px;
+    height: 600px;
     overflow:hidden;
     position: relative;
     margin:100 auto;
+    background-color: white;
 }
 #board {
-    width: 4200px;
-    height: 4200px;
+    width: 1200px;
+    height: 1200px;
     position:absolute;
     top:"-100px";
     left:"100px";
+    cursor: none;
 }
 #surface {
-    width: 4000px;
-    height: 4000px;
-    border: 10px solid black;
+    width: 1000px;
+    height: 1000px;
+    border: 10px dashed black;
 }
 #canvas {
 }
 #starter {
-  width:20px;
-  height:20px;
+  cursor: pointer;
   background-color: blue;
 }

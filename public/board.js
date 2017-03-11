@@ -9,6 +9,7 @@ function Player(location,user,direction,color,id){
   this.direction=direction;
   this.color=color;
   this.id=id;
+  this.out = false;
 }
 
 
@@ -22,16 +23,19 @@ $(document).ready(function(){
   var userBox = new Player([playerX,playerY],true,"up","red",connection.id);
   $('#board').css("top",Number($('#board').css("top").slice(0,-2)) -(playerY -200) + "px");
   $('#board').css("left",Number($('#board').css("left").slice(0,-2)) - (playerX-200) + "px");
-  connection.socket.emit('addPlayer',userBox);
-  players.push(userBox);
+
   var canvas = document.getElementById("canvas");
-  canvas.width = $("#board").width();
-  canvas.height = $("#board").height();
+  canvas.width = $("#surface").width();
+  canvas.height = $("#surface").height();
   $('#starter').click(function(){
     connection.socket.emit('start',{});
   })
   function initialize(){
-
+    connection.socket.emit('addPlayer',userBox);
+    players.push(userBox);
+    var ctx=canvas.getContext("2d");
+    ctx.rect(1,1,1000,1000);
+    ctx.stroke();
     draw();
     window.setInterval(function(){
        tick();
@@ -68,6 +72,7 @@ $(document).ready(function(){
 });
   function tick(){
     for (var i = 0;i<players.length;i++){
+      if(!players[i].out){
       if (players[i].direction == "up"){
         players[i].location[1] -=moveAmount;
         if (players[i].user) $('#board').css("top",Number($('#board').css("top").slice(0,-2))+moveAmount + "px");
@@ -89,6 +94,7 @@ $(document).ready(function(){
           var sendID = players[i].id;
           connection.socket.emit('locationUpdate',{sendDirection,sendID})
         }
+      }
     }
     checkCollision();
     draw();
@@ -138,7 +144,8 @@ $(document).ready(function(){
     }
   }
   function playerOut(playerNumber){
-    delete players[playerNumber];   // needs reworked
+     players[playerNumber].out = true;
+     connection.socket.emit('out',playerNumber);
   }
   function draw(){
     var ctx=canvas.getContext("2d");
@@ -161,7 +168,9 @@ console.log(data);
   }
   initialize();
 });
-
+connection.socket.on('playerAdded',function(data){
+  serverPlayers = data.length;
+})
 connection.socket.on('directionSet',function(data){
   console.log(data);
   for (var i = 0;i<players.length;i++){
@@ -170,5 +179,4 @@ connection.socket.on('directionSet',function(data){
     }
   }
 })
-
 })

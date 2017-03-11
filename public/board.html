@@ -3,13 +3,21 @@
     <title>Multiplayer Snake Territories</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <link rel="stylesheet" href="board.css">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <div id="header">
-      <div id="starter"></div>
+    <div id="header" ng-app="" ng-controller="cont">
+      <div id="intro">
+      There are currently <span id = "players">{{}}</span> playing on <span id="server count">1</span> servers.
+
+      there are currently {{serverPlayers}} players are waiting to play on this server (you are one of them)
+      <div id="slow server">Currently only a slow server is available</div>
+
+      <span id="starter">Start a game with {{serverPlayers}} players</span>
+    </div>
     </div>
     <div id="window">
       <div id="board">
