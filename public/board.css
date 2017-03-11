@@ -4,7 +4,7 @@
     height: 800px;
     overflow:hidden;
     position: relative;
-    margin:0 auto;
+    margin:100 auto;
 }
 #board {
     width: 4200px;
@@ -19,4 +19,9 @@
     border: 10px solid black;
 }
 #canvas {
+}
+#starter {
+  width:20px;
+  height:20px;
+  background-color: blue;
 }

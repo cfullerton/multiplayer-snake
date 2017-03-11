@@ -1,31 +1,41 @@
 var moveAmount = 5;
 var moveTime = 100;
-
-function Player(location,user,direction,color,outside){
+var server = "http://localhost:3000"                      // needs to come server selection
+connection = new Connection(server);
+connection.setID();
+function Player(location,user,direction,color,id){
   this.location =location;
   this.user=user;
   this.direction=direction;
   this.color=color;
-  this.outside=outside;
-  this.trail=[];
+  this.id=id;
 }
 
 
 
 $(document).ready(function(){
   var players = [];
+  var playerX = Math.floor(Math.random() * (3800 - 200 + 1)) + 200;
+  var playerY = Math.floor(Math.random() * (3800 - 200 + 1)) + 200;
+  var userBox = new Player([playerX,playerY],true,"up","red",connection.id);
+  $('#board').css("top",Number($('#board').css("top").slice(0,-2)) -(playerY -200) + "px");
+  $('#board').css("left",Number($('#board').css("left").slice(0,-2)) - (playerX-200) + "px");
+  connection.socket.emit('addPlayer',userBox);
+  players.push(userBox);
   var canvas = document.getElementById("canvas");
   canvas.width = $("#board").width();
   canvas.height = $("#board").height();
-
+  $('#starter').click(function(){
+    connection.socket.emit('start',{});
+  })
   function initialize(){
-    var userBox = new Player([200,200],true,"up","red",false);
-    players.push(userBox);
+
     draw();
     window.setInterval(function(){
        tick();
     }, moveTime);
   };
+
   $(document).keydown(function(e) {
       e.preventDefault();
     var newDirection = "";
@@ -72,6 +82,11 @@ $(document).ready(function(){
         if (players[i].user) $('#board').css("left",Number($('#board').css("left").slice(0,-2))-moveAmount + "px");
 
       }
+        if (players[i].user){
+          var sendDirection = players[i].direction;
+          var sendID = players[i].id;
+          connection.socket.emit('locationUpdate',{sendDirection,sendID})
+        }
     }
     checkCollision();
     draw();
@@ -121,7 +136,7 @@ $(document).ready(function(){
     }
   }
   function playerOut(playerNumber){
-    delete players[playerNumber];
+    delete players[playerNumber];   // needs reworked
   }
   function draw(){
     var ctx=canvas.getContext("2d");
@@ -133,7 +148,22 @@ $(document).ready(function(){
 
   }
 
+connection.socket.on('start', function(data) {
+console.log(data);
+  for (var i = 0; i< data.length;i++){
+    data[i].user = false;
+    players.push(data[i]);
+  }
+  initialize();
+});
 
-initialize();
+connection.socket.on('directionSet',function(data){
+  console.log(data);
+  for (var i = 0;i<players.length;i++){
+    if (!players[i].user){
+      players[i].direction = data[players[i].id]
+    }
+  }
+})
 
 })
