@@ -1,6 +1,6 @@
-var moveAmount = 5;
-var moveTime = 100;
-var server = "http://192.168.1.6:3000"                      // needs to come server selection
+var moveAmount = 1;
+var moveTime = 10;
+var server = "http://192.168.1.5:3000"                      // needs to come server selection
 connection = new Connection(server);
 connection.setID();
 function Player(location,user,direction,color,id){
@@ -38,9 +38,6 @@ $(document).ready(function(){
     for (var i = 0;i<players.length;i++){
         players[i].out = false;
     }
-    var ctx=canvas.getContext("2d");
-    ctx.rect(1,1,1000,1000);
-    ctx.stroke();
     draw();
     window.setInterval(function(){
        tick();
@@ -97,6 +94,10 @@ $(document).ready(function(){
         if (players[i].user){
           var sendDirection = players[i].direction;
           var sendID = players[i].id;
+          if (players[i].location[0] <= 0 || players[i].location[1] <=0
+          || players[i].location[0] >= 1000 || players[i].location[1] >=1000 ){
+            playerOut(i);
+          }
           connection.socket.emit('locationUpdate',{sendDirection,sendID})
         }
       }
