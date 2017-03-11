@@ -153,7 +153,7 @@ $(document).ready(function(){
 connection.socket.on('start', function(data) {
 console.log(data);
   for (var i = 0; i< data.length;i++){
-    if (data[i].id ! = connection.id){
+    if (data[i].id != connection.id){
     data[i].user = false;
     console.log(data[i])
     players.push(data[i]);
