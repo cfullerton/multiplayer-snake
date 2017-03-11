@@ -9,7 +9,7 @@ function Player(location,user,direction,color,id){
   this.direction=direction;
   this.color=color;
   this.id=id;
-  this.out = false;
+  this.out = true;
 }
 
 
@@ -32,7 +32,9 @@ $(document).ready(function(){
     connection.socket.emit('start',{});
   })
   function initialize(){
-
+    for (var i = 0;i<players.length;i++){
+        players[i].out = false;
+    }
     var ctx=canvas.getContext("2d");
     ctx.rect(1,1,1000,1000);
     ctx.stroke();
@@ -162,6 +164,8 @@ console.log(data);
   for (var i = 0; i< data.length;i++){
     if (data[i].id != connection.id){
     data[i].user = false;
+    data[i].color = "blue";
+    data[i].out = false;
     console.log(data[i])
     players.push(data[i]);
   }
@@ -177,7 +181,7 @@ connection.socket.on('directionSet',function(data){
   for (var i = 0;i<players.length;i++){
     if (!players[i].user){
       players[i].direction = data[players[i].id]
-      players[i].color = "blue";
+
     }
   }
 })
