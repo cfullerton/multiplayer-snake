@@ -1,6 +1,6 @@
 var moveAmount = 5;
 var moveTime = 100;
-var server = "http://localhost:3000"                      // needs to come server selection
+var server = "http://192.168.1.6:3000"                      // needs to come server selection
 connection = new Connection(server);
 connection.setID();
 function Player(location,user,direction,color,id){
@@ -15,8 +15,8 @@ function Player(location,user,direction,color,id){
 
 $(document).ready(function(){
   var players = [];
-  var playerX = Math.floor(Math.random() * (3800 - 200 + 1)) + 200;
-  var playerY = Math.floor(Math.random() * (3800 - 200 + 1)) + 200;
+  var playerX = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
+  var playerY = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
   var userBox = new Player([playerX,playerY],true,"up","red",connection.id);
   $('#board').css("top",Number($('#board').css("top").slice(0,-2)) -(playerY -200) + "px");
   $('#board').css("left",Number($('#board').css("left").slice(0,-2)) - (playerX-200) + "px");
