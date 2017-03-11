@@ -170,6 +170,7 @@ console.log(data);
 });
 connection.socket.on('playerAdded',function(data){
   serverPlayers = data.length;
+  $('.serverPlayers').text(serverPlayers);
 })
 connection.socket.on('directionSet',function(data){
   console.log(data);
