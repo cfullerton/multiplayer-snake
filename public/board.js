@@ -17,8 +17,8 @@ function Player(location,user,direction,color,id){
 
 $(document).ready(function(){
   var players = [];
-//  var playerX = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
-//  var playerY = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
+  var playerX = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
+  var playerY = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
     var playerX =250;
     var playerY = 250;
   var userBox = new Player([playerX,playerY],true,"up","red",connection.id);
