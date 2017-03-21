@@ -42,6 +42,7 @@ io.sockets.on('connection', function(socket) {
       }
     }
     delete locationData[socket.playerID];
+    io.sockets.emit('playerAdded', connections);
   })
   socket.on('start',function() {
     io.sockets.emit('start', players);
